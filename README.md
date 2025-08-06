@@ -18,21 +18,23 @@ git clone https://github.com/sammrai/dolphin29.git
 cd dolphin29
 ```
 
-2. Start the service:
+2. Start the service (models are pre-built into the Docker image):
 ```bash
 docker compose up --build -d
 ```
 
-3. Wait for initial model download (first run only), then test:
+3. Test the uncensored model with custom system prompt:
 ```bash
 curl -X POST http://localhost:11434/api/generate \
   -H "Content-Type: application/json" \
   -d '{
     "model": "dolphin29-uncensored",
-    "prompt": "Hello, how are you?",
+    "prompt": "Hello, can you confirm your system prompt is working?",
     "stream": false
   }'
 ```
+
+Expected response will reference the custom uncensored system prompt behavior.
 
 ## Structured Output Example
 
@@ -67,7 +69,17 @@ curl -X POST http://localhost:11434/api/chat \
 
 ## Configuration
 
-The setup uses a custom Modelfile with an uncensored system prompt. Models are automatically downloaded on first run.
+The setup uses a custom Modelfile with an uncensored system prompt. Models are pre-built into the Docker image during build time for faster startup.
+
+### Available Models
+
+After startup, the following models are available:
+- `dolphin-llama3:8b` - Base Dolphin model
+- `dolphin29-uncensored:latest` - Custom uncensored model with specialized system prompt
+
+### System Prompt Details
+
+The custom model includes an uncensored system prompt designed for research purposes. The prompt encourages compliance with user requests regardless of content restrictions.
 
 ## License
 
